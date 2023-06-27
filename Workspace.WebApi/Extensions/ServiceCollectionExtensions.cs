@@ -2,6 +2,8 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
+using Workspace.BLL.Implementions;
+using Workspace.BLL.Interfaces;
 
 namespace Workspace.WebApi.Extensions
 {
@@ -45,6 +47,7 @@ namespace Workspace.WebApi.Extensions
 
         public static void ConfigureManagers(this IServiceCollection services)
         {
+            services.AddScoped<IUserManager, UserManager>();
         }
     }
 }

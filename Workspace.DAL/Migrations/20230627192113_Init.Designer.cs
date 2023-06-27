@@ -12,7 +12,7 @@ using Workspace.DAL;
 namespace Workspace.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230627185149_Init")]
+    [Migration("20230627192113_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -118,9 +118,8 @@ namespace Workspace.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset?>("Updated")
                         .HasColumnType("timestamp with time zone");
@@ -130,9 +129,38 @@ namespace Workspace.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Login")
+                        .IsUnique();
+
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTimeOffset(new DateTime(2023, 6, 27, 19, 21, 13, 591, DateTimeKind.Unspecified).AddTicks(8576), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "Admin@mail.ru",
+                            FullName = "Администратор",
+                            Login = "Admin",
+                            Password = "$2a$11$Gt2m30tZkUOKBSRS9KHe7O.eMZhaX0QxxzWhefxd6jBqPFGwv8Opq",
+                            ProfileImage = "",
+                            Status = 1,
+                            UserRoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTimeOffset(new DateTime(2023, 6, 27, 19, 21, 13, 797, DateTimeKind.Unspecified).AddTicks(6669), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "User@mail.ru",
+                            FullName = "Пользователь",
+                            Login = "User",
+                            Password = "$2a$11$8X2AnqSsacHSwhYoKvUepOaEyh4.UjTGZvEYJtenqXLnJ9GdJ2Ft.",
+                            ProfileImage = "",
+                            Status = 1,
+                            UserRoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Workspace.DAL.Entities.UserRole", b =>
@@ -156,6 +184,20 @@ namespace Workspace.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Workspace.DAL.Entities.File", b =>
